@@ -8,6 +8,13 @@ using Excel = Microsoft.Office.Interop.Excel;       //Microsoft Excel 14 object 
 
 namespace ReadExcel
 {
+    class Nouhin
+    {
+        public DateTime date { get; set; }
+        public string name { get; set; }
+        public string item { get; set; }
+        public int grade { get; set; }
+    }
     class Program
     {
         // 参考 https://coderwall.com/p/app3ya/read-excel-file-in-c
@@ -26,19 +33,22 @@ namespace ReadExcel
             lastColumn = last.Column;
             //iterate over the rows and columns and print to the console as it appears in the file
             //excel is not zero based!!
-            for (int i = 1; i <= lastRow; i++)
+            var items = new List<Nouhin>();
+                for (int i = 1; i <= lastRow; i++)
             {
+                var element = new Nouhin();
                 for (int j = 1; j <= lastColumn; j++)
                 {
                     //new line
                     if (j == 1)
                         Console.Write("\r\n");
-
+                    element.date = xlRange.Cells[i, j].Value2.ToString();
                     //write the value to the console
                     if (xlRange.Cells[i, j] != null && xlRange.Cells[i, j].Value2 != null)
                         Console.Write(xlRange.Cells[i, j].Value2.ToString() + "\t");
                     //add useful things here!   
                 }
+                items.Add(element);
             }
             Console.ReadKey();
             //close and release
